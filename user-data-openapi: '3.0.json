@@ -1,0 +1,590 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "RESTful API",
+        "version": "1.0",
+        "description": "OpenAPI for User data RESTful API",
+        "termsOfService": "https://www.jades.birohmatika.com/",
+        "contact": {
+            "name": "Jades Michizaru",
+            "email": "jades1355@gmail.com",
+            "url": "https://www.jades.birohmatika.com/"
+        },
+        "license": {
+            "name": "APACHE 2.0",
+            "url": "https://www.apache.org/licenses/LICENSE-2.0"
+        }
+    },
+    "servers": [
+        {
+            "url": "https://{environment}.jades.com/api/v1",
+            "description": "TodoList RESTful API servers",
+            "variables": {
+                "environment": {
+                    "description": "Server Environment",
+                    "default": "dev",
+                    "enum": [
+                        "dev",
+                        "qa",
+                        "prod"
+                    ]
+                }
+            }
+        }
+    ],
+    "externalDocs": {
+        "description": "Website Jades Michizaru",
+        "url": "https://www.jades.birohmatika.com/"
+    },
+    "paths": {
+        "/todolist": {
+            "get": {
+                "tags": [
+                    "TodoList"
+                ],
+                "summary": "Get All Todolist",
+                "description": "Get all active todolist by default",
+                "parameters": [
+                    {
+                        "name": "include done",
+                        "in": "query",
+                        "required": false,
+                        "description": "Is include done todolist",
+                        "schema": {
+                            "type": "boolean",
+                            "nullable": true,
+                            "default": false
+                        }
+                    },
+                    {
+                        "name": "Name",
+                        "in": "query",
+                        "required": false,
+                        "description": "Filter todolist by name",
+                        "schema": {
+                            "type": "string",
+                            "nullable": false,
+                            "minLength": 1,
+                            "maxLength": 100
+                        },
+                        "examples": {
+                            "html": {
+                                "value": "HTML",
+                                "description": "Example HTML"
+                            },
+                            "php": {
+                                "value": "PHP"
+                            },
+                            "laravel": {
+                                "value": "Laravel"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success Get All TodoList",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "priority": {
+                                                "type": "number",
+                                                "format": "int32"
+                                            },
+                                            "tags": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "success": {
+                                        "description": "Example success get all todolist",
+                                        "value": [
+                                            {
+                                                "id": "1",
+                                                "name": "Java",
+                                                "priority": 3,
+                                                "tags": [
+                                                    "Java",
+                                                    "Programming"
+                                                ]
+                                            },
+                                            {
+                                                "id": "2",
+                                                "name": "PHP",
+                                                "priority": 5,
+                                                "tags": [
+                                                    "PHP",
+                                                    "Programming"
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Create new todolist",
+                "tags": [
+                    "TodoList"
+                ],
+                "description": "Create new todolist to DB",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "minLength": 1,
+                                        "required": true
+                                    },
+                                    "priority": {
+                                        "type": "integer",
+                                        "format": "int32",
+                                        "required": true,
+                                        "default": 1
+                                    },
+                                    "tags": {
+                                        "type": "array",
+                                        "required": false,
+                                        "minItems": 1,
+                                        "items": {
+                                            "type": "string",
+                                            "minLength": 1
+                                        }
+                                    }
+                                }
+                            },
+                            "examples": {
+                                "html": {
+                                    "description": "Create Examples HTML",
+                                    "value": {
+                                        "name": "HTML",
+                                        "priority": 3,
+                                        "tags": [
+                                            "HTML",
+                                            "Web"
+                                        ]
+                                    }
+                                },
+                                "php": {
+                                    "description": "Create Examples PHP",
+                                    "value": {
+                                        "name": "PHP",
+                                        "priority": 3,
+                                        "tags": [
+                                            "PHP",
+                                            "Laravel"
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success Create Todolist",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "priority": {
+                                            "type": "number",
+                                            "format": "int32"
+                                        },
+                                        "tags": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "java": {
+                                        "description": "Success Create Java Todolist",
+                                        "value": {
+                                            "id": "1",
+                                            "name": "Java",
+                                            "priority": 3,
+                                            "tags": [
+                                                "Java",
+                                                "Programming"
+                                            ]
+                                        }
+                                    },
+                                    "php": {
+                                        "description": "Success Create PHP Todolist",
+                                        "value": {
+                                            "id": "2",
+                                            "name": "PHP",
+                                            "priority": 5,
+                                            "tags": [
+                                                "PHP",
+                                                "Programming"
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/todolist/{todolistId}": {
+            "put": {
+                "summary": "Update Existing todolist",
+                "tags": [
+                    "TodoList"
+                ],
+                "description": "Update Existing todolist In database",
+                "parameters": [
+                    {
+                        "name": "todolistId",
+                        "in": "path",
+                        "required": true,
+                        "description": "Todolist id for updated",
+                        "schema": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 100
+                        },
+                        "examples": {
+                            "html": {
+                                "description": "Sample todolist id for HTML",
+                                "value": "1"
+                            },
+                            "php": {
+                                "description": "Sample todolist id for PHP",
+                                "value": "2"
+                            }
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "minLength": 1,
+                                        "required": true
+                                    },
+                                    "priority": {
+                                        "type": "integer",
+                                        "format": "int32",
+                                        "default": 1,
+                                        "required": true
+                                    },
+                                    "tags": {
+                                        "type": "array",
+                                        "required": false,
+                                        "minItems": 1,
+                                        "items": {
+                                            "type": "string",
+                                            "minLength": 1
+                                        }
+                                    }
+                                }
+                            },
+                            "examples": {
+                                "html": {
+                                    "description": "Create Examples HTML",
+                                    "value": {
+                                        "name": "HTML",
+                                        "priority": 3,
+                                        "tags": [
+                                            "HTML",
+                                            "Web"
+                                        ]
+                                    }
+                                },
+                                "php": {
+                                    "description": "Create Examples PHP",
+                                    "value": {
+                                        "name": "PHP",
+                                        "priority": 3,
+                                        "tags": [
+                                            "PHP",
+                                            "Laravel"
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success Create Todolist",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "priority": {
+                                            "type": "number",
+                                            "format": "int32"
+                                        },
+                                        "tags": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "java": {
+                                        "description": "Success Update Java Todolist",
+                                        "value": {
+                                            "id": "1",
+                                            "name": "Java",
+                                            "priority": 3,
+                                            "tags": [
+                                                "Java",
+                                                "Programming"
+                                            ]
+                                        }
+                                    },
+                                    "php": {
+                                        "description": "Success Update PHP Todolist",
+                                        "value": {
+                                            "id": "2",
+                                            "name": "PHP",
+                                            "priority": 5,
+                                            "tags": [
+                                                "PHP",
+                                                "Programming"
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete Existing todolist",
+                "tags": [
+                    "TodoList"
+                ],
+                "description": "Delete Existing todolist In database",
+                "parameters": [
+                    {
+                        "name": "todolistId",
+                        "in": "path",
+                        "required": true,
+                        "description": "Todolist id for deleted",
+                        "schema": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 100
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success Delete Todolist",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "success": {
+                                        "description": "Success Delete Todolist",
+                                        "value": {
+                                            "success": true
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Failed Delete Not Found Todolist",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "failed": {
+                                        "description": "Failed Delete Todolist",
+                                        "value": {
+                                            "success": false
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "Data": {
+            "get": {
+                "tags": [
+                    "List-Data"
+                ],
+                "summary": "Get All Todolist",
+                "description": "Get all active todolist by default",
+                "parameters": [
+                    {
+                        "name": "include done",
+                        "in": "query",
+                        "required": false,
+                        "description": "Is include done todolist",
+                        "schema": {
+                            "type": "boolean",
+                            "nullable": true,
+                            "default": false
+                        }
+                    },
+                    {
+                        "name": "Name",
+                        "in": "query",
+                        "required": false,
+                        "description": "Filter Data Product by username",
+                        "schema": {
+                            "type": "string",
+                            "nullable": false,
+                            "minLength": 1,
+                            "maxLength": 100
+                        },
+                        "examples": {
+                            "baju": {
+                                "value": "Kemeja Hitam",
+                                "description": "Purchased By User Hitman123"
+                            },
+                            "php": {
+                                "value": "PHP"
+                            },
+                            "laravel": {
+                                "value": "Laravel"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success Get All Product-List",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "int32"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "priority": {
+                                                "type": "number",
+                                                "format": "int32"
+                                            },
+                                            "description": {
+                                                "type": "string"
+                                            },
+                                            "tags": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "success": {
+                                        "description": "Example success get all Product-List",
+                                        "value": [
+                                            {
+                                                "id": 1,
+                                                "name": "Produk A",
+                                                "description": "Deskripsi Produk A",
+                                                "price": 10000,
+                                                "category": "Elektronik"
+                                            },
+                                            {
+                                                "id": "2",
+                                                "name": "Topi",
+                                                "priority": 5,
+                                                "tags": [
+                                                    "Topi",
+                                                    "Variasi"
+                                                ]
+                                            },
+                                            {
+                                                "id": "3",
+                                                "name": "Makanan",
+                                                "priority": 4,
+                                                "tags": [
+                                                    "Makanan",
+                                                    "Produsen"
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
